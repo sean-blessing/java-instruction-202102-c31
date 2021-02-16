@@ -17,7 +17,7 @@ public class GuessTheNumberApp {
 			int randNbr = (int) (Math.random() * LIMIT) + 1;
 			int numberGuesses = 0;
 			int guess = 0;
-			System.out.println("hint: randNbr is " + randNbr);
+			// System.out.println("hint: randNbr is " + randNbr);
 
 			while (guess != randNbr) {
 				// prompt for guess: int
@@ -27,30 +27,34 @@ public class GuessTheNumberApp {
 				// compare guess vs random #
 				// display output - did user win? how far away are they??
 				int diff = guess - randNbr;
-				String message = "";
-				if (diff < -10) {
-					message = "Way too low!  Guess again.";
-				} else if (diff < 0) {
-					message = "Too low!  Guess again.";
-				} else if (diff > 10) {
-					message = "Way too high!  Guess again.";
-				} else if (diff > 0) {
-					message = "Too high!  Guess again.";
-				} else {
-					// if win - display message
-					message = "You got it in " + numberGuesses + " tries.\n";
-					message += getWinMessage(numberGuesses);
-				}
+				String message = getGuessVsNumberMessage(numberGuesses, diff);
 				System.out.println(message);
 			}
 
-			System.out.println("Try again?");
-			choice = sc.next();
+			choice = getChoiceString(sc, "Try again?", "y", "n");
 		}
 
 		sc.close();
 		System.out.println("Bye");
 
+	}
+
+	private static String getGuessVsNumberMessage(int numberGuesses, int diff) {
+		String message = "";
+		if (diff < -10) {
+			message = "Way too low!  Guess again.";
+		} else if (diff < 0) {
+			message = "Too low!  Guess again.";
+		} else if (diff > 10) {
+			message = "Way too high!  Guess again.";
+		} else if (diff > 0) {
+			message = "Too high!  Guess again.";
+		} else {
+			// if win - display message
+			message = "You got it in " + numberGuesses + " tries.\n";
+			message += getWinMessage(numberGuesses);
+		}
+		return message;
 	}
 
 	private static String getWinMessage(int numberGuesses) {
@@ -95,4 +99,34 @@ public class GuessTheNumberApp {
 		}
 		return i;
 	}
+	
+    private static String getRequiredString(Scanner sc, String prompt) {
+        String s = "";
+        boolean isValid = false;
+        while (!isValid) {
+            System.out.print(prompt);
+            s = sc.nextLine();
+            if (s.equals("")) {
+                System.out.println("Error! This entry is required. Try again.");
+            } else {
+                isValid = true;
+            }
+        }
+        return s;
+    }
+
+    private static String getChoiceString(Scanner sc, String prompt,
+            String s1, String s2) {
+        String s = "";
+        boolean isValid = false;
+        while (!isValid) {
+            s = getRequiredString(sc, prompt);
+            if (!s.equalsIgnoreCase(s1) && !s.equalsIgnoreCase(s2)) {
+                System.out.println("Error! Entry must be '" + s1 + "' or '" + s2 + "'. Try again.");
+            } else {
+                isValid = true;
+            }
+        }
+        return s;
+    }
 }
