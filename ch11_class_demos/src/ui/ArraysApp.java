@@ -1,5 +1,9 @@
 package ui;
 
+import java.util.Arrays;
+
+import business.Product;
+
 public class ArraysApp {
 
 	public static void main(String[] args) {
@@ -34,6 +38,36 @@ public class ArraysApp {
 		System.out.println("# of elements = "+numbers.length);
 		System.out.println("avg = "+(double)sum/(double)numbers.length);
 		
+		Product p1 = new Product("java", "Murach's Java Programming", 59.50);
+		Product p2 = new Product("mysql", "Murach's My SQL", 55.50);
+		Product p3 = new Product("andr", "Murach's Android Programming", 57.50);
+		
+		Product[] products = {p1, p2, p3};
+		
+		for (Product p: products) {
+			System.out.println(p);
+		}
+		
+		//p. 365 - sorting
+		for (int i: numbers) {
+			System.out.println(i);
+		}
+		Arrays.sort(numbers);
+		System.out.println("---- sorted ----");
+		for (int i: numbers) {
+			System.out.println(i);
+		}
+		
+		System.out.println("Sort products");
+		for (Product p: products) {
+			System.out.println(p);
+		}
+		Arrays.sort(products);
+		System.out.println("---- sorted ----");
+		for (Product p: products) {
+			System.out.println(p);
+		}
+
 		
 		System.out.println("Bye");
 
