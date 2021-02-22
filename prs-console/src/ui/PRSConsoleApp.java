@@ -3,13 +3,15 @@ package ui;
 import java.util.Arrays;
 
 import business.User;
+import db.DAO;
+import db.UserList;
 import util.Console;
 
 public class PRSConsoleApp {
-	private static User[] users;
+	private static DAO<User> userDAO = new UserList();
 
 	public static void main(String[] args) {
-		System.out.println("Welcome tot the PRS Console App!");
+		System.out.println("Welcome to the PRS Console App!");
 		
 		int command = 0;
 		
@@ -18,6 +20,7 @@ public class PRSConsoleApp {
 			System.out.println("=======================");
 			System.out.println("1)\tList Users");
 			System.out.println("2)\tAdd User");
+			System.out.println("3)\tGet User By ID");
 			System.out.println("99)\tExit");
 			System.out.println();
 			
@@ -25,11 +28,11 @@ public class PRSConsoleApp {
 			System.out.println();
 			switch (command) {
 			case 1:
-				if (users==null) {
-					System.out.println("User list is null.. add some users!");
+				if (userDAO.getAll().isEmpty()) {
+					System.out.println("User list is empty.. add some users!");
 				}
 				else {
-					for (User u: users) {
+					for (User u: userDAO.getAll()) {
 						System.out.println(u);
 					}
 				}
@@ -48,26 +51,26 @@ public class PRSConsoleApp {
 				boolean reviewer = (rvw.equalsIgnoreCase("y")) ? true: false;
 				
 				User u = new User(id, un, pw, fn, ln, pn, em, admin, reviewer);
-				addUserToList(u);
+				userDAO.add(u);
 				System.out.println("User added!");
+				break;
+			case 3:
+				id = Console.getInt("User ID to retrieve? ", 0, Integer.MAX_VALUE);
+				User user = userDAO.getById(id);
+				if (user != null) {
+					System.out.println("User Found!!!");
+					System.out.println(user);
+				}
+				else {
+					System.out.println("No user found for id: "+id);
+				}
+				break;
 			}
 			
 		}
 		
 		System.out.println("Bye");
 
-	}
-
-	private static void addUserToList(User u) {
-		// 1. expand list of users by 1
-		if (users!=null)
-			users = Arrays.copyOf(users, users.length);
-		else
-			users = new User[1];
-		
-		// 2. add u to end of list
-		users[users.length-1] = u;
-		
 	}
 
 }
