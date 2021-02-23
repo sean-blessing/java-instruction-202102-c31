@@ -45,10 +45,12 @@ public class PRSConsoleApp {
 				String ln = Console.getRequiredString("Last Name? ");
 				String pn = Console.getRequiredString("Phone Number? ");
 				String em = Console.getRequiredString("Email? ");
-				String adm = Console.getChoiceString("Admin? (y/n) ", "y", "n");
-				String rvw = Console.getChoiceString("Reviewer? (y/n) ", "y", "n");
-				boolean admin = (adm.equalsIgnoreCase("y")) ? true: false;
-				boolean reviewer = (rvw.equalsIgnoreCase("y")) ? true: false;
+				//String adm = Console.getChoiceString("Admin? (y/n) ", "y", "n");
+				//String rvw = Console.getChoiceString("Reviewer? (y/n) ", "y", "n");
+				boolean admin = Console.getBoolean("Admin? (y/n) ", "y", "n");
+				boolean reviewer = Console.getBoolean("Reviewer? (y/n) ", "y", "n");
+				//boolean admin = (adm.equalsIgnoreCase("y")) ? true: false;
+				//boolean reviewer = (rvw.equalsIgnoreCase("y")) ? true: false;
 				
 				User u = new User(id, un, pw, fn, ln, pn, em, admin, reviewer);
 				userDAO.add(u);
