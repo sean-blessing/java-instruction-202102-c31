@@ -29,7 +29,8 @@ public class WizardInventoryApp {
 			System.out.println("drop - remove an item");
 			System.out.println("exit - exit app");
 			// prompt user for 'command'
-			command = Console.getRequiredString("COMMAND:  ");
+			String[] validEntries = {"show","grab","edit","drop","exit"};
+			command = Console.getChoiceString("COMMAND:  ", validEntries);
 			
 			// determine the command to perform
 			switch (command) {
