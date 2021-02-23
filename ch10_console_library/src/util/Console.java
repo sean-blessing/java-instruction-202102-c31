@@ -1,4 +1,5 @@
 package util;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Console {
@@ -38,6 +39,24 @@ public class Console {
             } else {
                 isValid = true;
             }
+        }
+        return s;
+    }
+    public static String getChoiceString(String prompt,
+            String[] validEntries) {
+        String s = "";
+        boolean isValid = false;
+        while (!isValid) {
+            s = getRequiredString(prompt);
+            // loop through all valid entries to see if user entry is valid
+            for (String str: validEntries) {
+	            if (s.equalsIgnoreCase(str)) {
+	            	isValid = true;
+	            }
+            }
+            // if user did not match then display an error
+            if (!isValid)
+            	System.out.println("Invalid entry, '"+s+"'. Try again.");
         }
         return s;
     }
@@ -109,5 +128,46 @@ public class Console {
             }
         }
         return d;
+    }
+    
+    public static boolean getBoolean(String prompt, String valTrue, String valFalse) {
+        boolean retBoolean = false;
+        boolean isValid = false;
+        String s = "";
+        while (!isValid) {
+            s = getRequiredString(prompt);
+            if (!s.equalsIgnoreCase(valTrue) && !s.equalsIgnoreCase(valFalse)) {
+                System.out.println("Error! Entry must be '" + valTrue + "' or '" + valFalse + "'. Try again.");
+            } else {
+                isValid = true;
+                // entry is valid... now return true or false (default)
+                if (s.equalsIgnoreCase(valTrue)) {
+                	retBoolean = true;
+                }
+            }
+        }
+        return retBoolean;
+
+    }
+    
+    // This method will print the prompt then follow with "Enter month... day... year" prompts
+    // Note:  will need enhancement to manage leap year
+    public static LocalDate getLocalDate(String prompt) {
+    	LocalDate ld = null;
+    	boolean isValid = false;
+    	while (!isValid) {
+	    	System.out.println(prompt);
+	   		int month = getInt("Enter month (1-12): " , 0, 13);
+	   		int day = getInt("Enter day of month (1-31): " , 0, 32);
+	   		int year = getInt("Enter year (> 0): " , 0, Integer.MAX_VALUE);
+	    	try {
+	    		ld = LocalDate.of(year, month, day);
+	    		isValid = true;
+	    	}
+	    	catch (Exception e) {
+	    		System.out.println("Error constructing date from entries.  Try again.");
+	    	}
+    	}
+    	return ld;
     }
 }
