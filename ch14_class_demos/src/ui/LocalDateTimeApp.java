@@ -7,6 +7,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
 
+import util.Console;
+
 public class LocalDateTimeApp {
 
 	public static void main(String[] args) {
@@ -69,7 +71,9 @@ public class LocalDateTimeApp {
 		System.out.println("Today, full format:  "+fdf.format(currentDate));
 		
 		
-		
+		// updated Console.getLocalDate method test
+		LocalDate userEnteredLocalDate = Console.getLocalDate("Enter a new LocalDate:");
+		System.out.println(userEnteredLocalDate);
 		
 		
 		
