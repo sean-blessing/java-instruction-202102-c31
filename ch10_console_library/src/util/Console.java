@@ -52,6 +52,7 @@ public class Console {
             for (String str: validEntries) {
 	            if (s.equalsIgnoreCase(str)) {
 	            	isValid = true;
+	            	break;
 	            }
             }
             // if user did not match then display an error
