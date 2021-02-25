@@ -8,9 +8,11 @@ import java.util.List;
 import util.Console;
 
 import business.Movie;
+import db.DAO;
+import db.MovieTextFile;
 
 public class BmdbConsoleApp {
-	private static final String MOVIE_FILE_NAME = "movies.txt";
+	private static DAO<Movie> movieDAO = new MovieTextFile();
 
 	public static void main(String[] args) throws IOException {
 		System.out.println("Welcome to the Bootcamp Movie Database!!!");
@@ -20,13 +22,15 @@ public class BmdbConsoleApp {
 			System.out.println("MENU:");
 			System.out.println("show - show all movies");
 			System.out.println("add  - add a movie");
+			System.out.println("get  - get a movie by id");
+			System.out.println("del  - delete a movie by id");
 			System.out.println("exit - exit app");
-			String[] validEntries = {"show","add","exit"};
+			String[] validEntries = {"show","add","get", "del", "exit"};
 			command = Console.getChoiceString("Command: ", validEntries);
 			switch (command) {
 			case "show":
 				// read all records from file and print to screen
-				List<Movie> movies = readMovieRecords();
+				List<Movie> movies = movieDAO.getAll();
 				System.out.println("Movie List:");
 				System.out.println("============");
 				if (movies.size() != 0) {
@@ -50,8 +54,37 @@ public class BmdbConsoleApp {
 				// create instance of movie
 				Movie m = new Movie(id, title, rating, year, director);
 				// call writeMovieRecord
-				writeMovieRecord(m);
-				//TODO add exception handling
+				if (movieDAO.add(m)) {
+					System.out.println("Movie added!");
+				}
+				else {
+					System.out.println("Doh!  Error adding movie.");
+				}
+				break;
+			case "get":
+				System.out.println("Get a Movie:");
+				System.out.println("============");
+				id = Console.getInt("Movie ID: ", 0, Integer.MAX_VALUE);
+				Movie movie = movieDAO.getById(id);
+				if (movie != null) {
+					System.out.println(movie);
+				}
+				else {
+					System.out.println("Invalid movie id.");
+				}
+				break;
+			case "del":
+				System.out.println("Delete a Movie:");
+				System.out.println("============");
+				id = Console.getInt("Movie ID: ", 0, Integer.MAX_VALUE);
+				movie = movieDAO.getById(id);
+				if (movie != null) {
+					movieDAO.delete(movie);
+					System.out.println("Movie successfully deleted!");
+				}
+				else {
+					System.out.println("Invalid movie id.");
+				}
 				break;
 			case "exit":
 				break;
@@ -60,61 +93,5 @@ public class BmdbConsoleApp {
 		System.out.println("Bye");
 
 	}
-	
-	//p. 467
-	private static void writeMovieRecord(Movie m) throws IOException {
-		Path moviesPath = Paths.get(MOVIE_FILE_NAME);
-		File moviesFile = moviesPath.toFile();
-		
-		PrintWriter out = new PrintWriter(
-						  new BufferedWriter(
-						  new FileWriter(moviesFile)));
-		out.println(m.getId()+"\t"+m.getTitle()+"\t"+m.getRating()+"\t"+m.getYear()
-					+"\t"+m.getDirector());
-		out.close();
-		
-	}
-	
-	// read movie records and return a list of movies
-	private static List<Movie> readMovieRecords() throws IOException {
-		List<Movie> movies = new ArrayList<>();
-		//p.477
-		BufferedReader in = new BufferedReader(
-							new FileReader(MOVIE_FILE_NAME));
-		String line = in.readLine();
-		while (line != null) {
-			String[] fields = line.split("\t");
-			// after split we should have 5 fields per line
-			String idStr = fields[0];
-			int id = Integer.parseInt(idStr);
-			String title = fields[1];
-			String rating = fields[2];
-			String yearStr = fields[3];
-			int year = Integer.parseInt(yearStr);
-			String director = fields[4];
-			
-			Movie m = new Movie(id, title, rating, year, director);
-			movies.add(m);
-			
-			//get the next line in the file
-			line = in.readLine();
-		}
-		in.close();
-		return movies;
-	}
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }
