@@ -9,10 +9,11 @@ import util.Console;
 
 import business.Movie;
 import db.DAO;
+import db.DAOUploadable;
 import db.MovieTextFile;
 
 public class BmdbConsoleApp {
-	private static DAO<Movie> movieDAO = new MovieTextFile();
+	private static DAOUploadable<Movie> movieDAO = new MovieTextFile();
 
 	public static void main(String[] args) throws IOException {
 		System.out.println("Welcome to the Bootcamp Movie Database!!!");
@@ -20,12 +21,13 @@ public class BmdbConsoleApp {
 		
 		while (!command.equalsIgnoreCase("exit")) {
 			System.out.println("MENU:");
-			System.out.println("show - show all movies");
-			System.out.println("add  - add a movie");
-			System.out.println("get  - get a movie by id");
-			System.out.println("del  - delete a movie by id");
-			System.out.println("exit - exit app");
-			String[] validEntries = {"show","add","get", "del", "exit"};
+			System.out.println("show   - show all movies");
+			System.out.println("add    - add a movie");
+			System.out.println("get    - get a movie by id");
+			System.out.println("del    - delete a movie by id");
+			System.out.println("upload - upload new movies from upload file");
+			System.out.println("exit   - exit app");
+			String[] validEntries = {"show","add","get", "del", "upload", "exit"};
 			command = Console.getChoiceString("Command: ", validEntries);
 			switch (command) {
 			case "show":
@@ -85,6 +87,12 @@ public class BmdbConsoleApp {
 				else {
 					System.out.println("Invalid movie id.");
 				}
+				break;
+			case "upload":
+				if (movieDAO.upload())
+					System.out.println("Upload completed successfully!");
+				else 
+					System.err.println("Error in movie upload... check console.");
 				break;
 			case "exit":
 				break;
