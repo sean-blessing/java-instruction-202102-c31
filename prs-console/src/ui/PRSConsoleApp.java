@@ -5,10 +5,11 @@ import java.util.Arrays;
 import business.User;
 import db.DAO;
 import db.UserList;
+import db.UserTextFile;
 import util.Console;
 
 public class PRSConsoleApp {
-	private static DAO<User> userDAO = new UserList();
+	private static DAO<User> userDAO = new UserTextFile();
 
 	public static void main(String[] args) {
 		System.out.println("Welcome to the PRS Console App!");
