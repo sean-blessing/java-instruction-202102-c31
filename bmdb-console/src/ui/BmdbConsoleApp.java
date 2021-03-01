@@ -10,10 +10,11 @@ import util.Console;
 import business.Movie;
 import db.DAO;
 import db.DAOUploadable;
+import db.MovieDB;
 import db.MovieTextFile;
 
 public class BmdbConsoleApp {
-	private static DAOUploadable<Movie> movieDAO = new MovieTextFile();
+	private static DAOUploadable<Movie> movieDAO = new MovieDB();
 
 	public static void main(String[] args) throws IOException {
 		System.out.println("Welcome to the Bootcamp Movie Database!!!");
