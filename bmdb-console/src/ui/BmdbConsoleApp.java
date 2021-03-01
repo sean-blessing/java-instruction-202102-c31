@@ -49,13 +49,13 @@ public class BmdbConsoleApp {
 				// prompt user for all fields for a new movie
 				System.out.println("Add a Movie:");
 				System.out.println("============");
-				int id = Console.getInt("ID: ", 0, Integer.MAX_VALUE);
+				//int id = Console.getInt("ID: ", 0, Integer.MAX_VALUE);
 				String title = Console.getRequiredString("Title: ");
 				String rating = Console.getRequiredString("Rating: ");
 				int year = Console.getInt("Year: ", 0, Integer.MAX_VALUE);
 				String director = Console.getRequiredString("Director: ");
 				// create instance of movie
-				Movie m = new Movie(id, title, rating, year, director);
+				Movie m = new Movie(title, rating, year, director);
 				// call writeMovieRecord
 				if (movieDAO.add(m)) {
 					System.out.println("Movie added!");
@@ -67,7 +67,7 @@ public class BmdbConsoleApp {
 			case "get":
 				System.out.println("Get a Movie:");
 				System.out.println("============");
-				id = Console.getInt("Movie ID: ", 0, Integer.MAX_VALUE);
+				int id = Console.getInt("Movie ID: ", 0, Integer.MAX_VALUE);
 				Movie movie = movieDAO.getById(id);
 				if (movie != null) {
 					System.out.println(movie);

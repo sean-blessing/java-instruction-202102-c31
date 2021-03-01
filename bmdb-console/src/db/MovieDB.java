@@ -70,9 +70,23 @@ public class MovieDB implements DAOUploadable<Movie> {
 	}
 
 	@Override
-	public boolean add(Movie t) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean add(Movie m) {
+		boolean success = false;
+		String sql = "insert into movie (title, year, rating, director) " +
+					 "values (?, ?, ?, ?)";
+		try (Connection conn = getConnection();
+			 PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setString(1, m.getTitle());
+			ps.setInt(2, m.getYear());
+			ps.setString(3, m.getRating());
+			ps.setString(4, m.getDirector());
+			ps.executeUpdate();
+			success = true;
+		} catch (SQLException e) {
+			System.err.println("Error adding movie.");
+			e.printStackTrace();
+		}
+		return success;
 	}
 
 	@Override
@@ -82,9 +96,20 @@ public class MovieDB implements DAOUploadable<Movie> {
 	}
 
 	@Override
-	public boolean delete(Movie t) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean delete(Movie m) {
+		boolean success = false;
+		// p. 691
+		String sql = "delete from movie where id = ?";
+		try (Connection conn = getConnection();
+				 PreparedStatement ps = conn.prepareStatement(sql)) {
+				ps.setInt(1, m.getId());
+				ps.executeUpdate();
+				success = true;
+			} catch (SQLException e) {
+				System.err.println("Error deleting movie.");
+				e.printStackTrace();
+			}
+		return success;
 	}
 
 	@Override
