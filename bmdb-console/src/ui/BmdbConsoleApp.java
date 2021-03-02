@@ -8,13 +8,16 @@ import java.util.List;
 import util.Console;
 
 import business.Movie;
+import business.User;
 import db.DAO;
 import db.DAOUploadable;
 import db.MovieDB;
 import db.MovieTextFile;
+import db.UserDB;
 
 public class BmdbConsoleApp {
 	private static DAOUploadable<Movie> movieDAO = new MovieDB();
+	private static UserDB userDB = new UserDB();
 
 	public static void main(String[] args) throws IOException {
 		System.out.println("Welcome to the Bootcamp Movie Database!!!");
@@ -27,8 +30,9 @@ public class BmdbConsoleApp {
 			System.out.println("get    - get a movie by id");
 			System.out.println("del    - delete a movie by id");
 			System.out.println("upload - upload new movies from upload file");
+			System.out.println("login  - user login");
 			System.out.println("exit   - exit app");
-			String[] validEntries = {"show","add","get", "del", "upload", "exit"};
+			String[] validEntries = {"show","add","get", "del", "upload", "login", "exit"};
 			command = Console.getChoiceString("Command: ", validEntries);
 			switch (command) {
 			case "show":
@@ -94,6 +98,20 @@ public class BmdbConsoleApp {
 					System.out.println("Upload completed successfully!");
 				else 
 					System.err.println("Error in movie upload... check console.");
+				break;
+			case "login":
+				System.out.println("User Login:");
+				System.out.println("============");
+				String un = Console.getRequiredString("Username: ");
+				String pwd = Console.getRequiredString("Password: ");
+				User authenticatedUser = userDB.login(un, pwd);
+				if (authenticatedUser==null) {
+					System.out.println("Invalid login!");
+				}
+				else {
+					System.out.println("Successful login!  Welcome, "+
+							authenticatedUser.getFirstName()+"!");
+				}
 				break;
 			case "exit":
 				break;
