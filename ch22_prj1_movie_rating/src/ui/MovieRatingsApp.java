@@ -56,7 +56,8 @@ public class MovieRatingsApp {
 					System.out.println("==========================");
 					List<Movie> highestRated = 
 							mc.filterMovies(m -> m.getRating() >= 4.0);
-					highestRated.stream().forEach(m -> System.out.println(m));
+					//highestRated.stream().forEach(m -> System.out.println(m));
+					highestRated.stream().forEach(System.out::println);
 					break;
 				case 3:		// View most recent movies (movies released within last 10 years)
 					System.out.println("Movies released in last 10 years");
